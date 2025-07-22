@@ -5,6 +5,11 @@ from typing import Optional
 from models.user_views import coach, fan, player
 Base = declarative_base()
 
+"""
+This fie contains all information for the user of any type
+
+"""
+
 class Users(Base):
     __tablename__ = 'users'
 
@@ -20,6 +25,6 @@ class Users(Base):
     last_login = Column(TIMESTAMP, nullable=True)
 
     # Relationships
-    coach = relationship('Teams')
+    coach = relationship('Coaches')
     fan = relationship('Fans')
     player = relationship('Players')
