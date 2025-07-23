@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
-    title="Baseball Analytics API",
+    title="Sports Analytics API",
     description="api to transfer live game stats and return ML insights",
     version="0.1.0",
     docs_url="/docs",
