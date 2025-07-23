@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, JSON, TIMESTAMP, 
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pydantic import BaseModel, Field
 from typing import Optional
-from models import team
+from ....sports import baseball
 
 Base = declarative_base()
 
