@@ -1,44 +1,39 @@
-from sqlalchemy import create_engine, Column, Integer, String, JSON, TIMESTAMP, func, ForeignKey, Boolean, Date, TIME
-from sqlalchemy.orm import sessionmaker, declarative_base
-from pydantic import BaseModel, Field
+from sqlalchemy import JSON, TIMESTAMP, func, ForeignKey, Boolean, Integer
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 from typing import Optional
-from ....sports import baseball
-
 
 Base = declarative_base()
 
 class GameState(Base):
     __tablename__ = "game_state"
 
-    game_state_id = Column(Integer, primary_key=True, autoincrement=True)
-    game_id = Column(Integer, ForeignKey('game.game_id'))
-    inning = Column(Integer)
-    top_of_inning = Column(Boolean)
-    users_lineup_id = Column(Integer, ForeignKey('lineup_state.lineup_id'))
-    opponent_lineup_id = Column(Integer, ForeignKey('lineup_state.lineup_id'))
-    users_score = Column(Integer)
-    opponents_score = Column(Integer)
-    outs = Column(Integer)
-    balls = Column(Integer)
-    strikes = Column(Integer)
-    batter_id = Column(Integer, ForeignKey('player.player_id'))
-    pitcher_id = Column(Integer, ForeignKey('player.player_id'))
-    runner_on_1 = Column(Integer, ForeignKey('player.player_id'), nullable=True)
-    runner_on_2 = Column(Integer, ForeignKey('player.player_id'), nullable=True)
-    runner_on_3 = Column(Integer, ForeignKey('player.player_id'), nullable=True)
-    batter_on_deck = Column(Integer, ForeignKey('player.player_id'))
-    updated_at = Column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
-
-
+    game_state_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    game_id: Mapped[int] = mapped_column(ForeignKey('game.game_id'))
+    inning: Mapped[int] = mapped_column(Integer)
+    top_of_inning: Mapped[bool] = mapped_column(Boolean)
+    users_lineup_id: Mapped[int] = mapped_column(ForeignKey('lineup_state.lineup_id'))
+    opponent_lineup_id: Mapped[int] = mapped_column(ForeignKey('lineup_state.lineup_id'))
+    users_score: Mapped[int] = mapped_column(Integer)
+    opponents_score: Mapped[int] = mapped_column(Integer)
+    outs: Mapped[int] = mapped_column(Integer)
+    balls: Mapped[int] = mapped_column(Integer)
+    strikes: Mapped[int] = mapped_column(Integer)
+    batter_id: Mapped[int] = mapped_column(ForeignKey('player.player_id'))
+    pitcher_id: Mapped[int] = mapped_column(ForeignKey('player.player_id'))
+    runner_on_1: Mapped[Optional[int]] = mapped_column(ForeignKey('player.player_id'), nullable=True)
+    runner_on_2: Mapped[Optional[int]] = mapped_column(ForeignKey('player.player_id'), nullable=True)
+    runner_on_3: Mapped[Optional[int]] = mapped_column(ForeignKey('player.player_id'), nullable=True)
+    batter_on_deck: Mapped[int] = mapped_column(ForeignKey('player.player_id'))
+    updated_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
 
 class LineupState(Base):
     __tablename__ = "lineup_state"
 
-    game_id = Column(Integer, ForeignKey('game.game_id'))
-    lineup_id = Column(Integer, primary_key=True, autoincrement=True)
-    event_created = Column(Integer, """ForeignKey(null)""")
-    team_id = Column(Integer, ForeignKey('teams.team_id'))
-    starting_lineup = Column(Boolean)
-    defensive_lineup = Column(JSON)
-    offensive_lineup = Column(JSON)
-    created_at = Column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
+    game_id: Mapped[int] = mapped_column(ForeignKey('game.game_id'))
+    lineup_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    event_created: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)  # ForeignKey removed, set nullable
+    team_id: Mapped[int] = mapped_column(ForeignKey('teams.team_id'))
+    starting_lineup: Mapped[bool] = mapped_column(Boolean)
+    defensive_lineup: Mapped[dict] = mapped_column(JSON)
+    offensive_lineup: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)

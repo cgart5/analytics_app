@@ -1,5 +1,5 @@
-from sqlalchemy import create_engine, Column, Integer, String, JSON, TIMESTAMP, func, ForeignKey, Boolean, Date, TIME
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy import create_engine, String, JSON, TIMESTAMP, func, ForeignKey, Boolean, Date, TIME, Integer
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 from pydantic import BaseModel, Field
 from typing import Optional
 from ....sports import baseball
@@ -9,20 +9,20 @@ Base = declarative_base()
 class Game(Base):
     __tablename__ = "game"
 
-    game_id = Column(Integer, primary_key=True, autoincrement=True)
-    scheduled_date = Column(Date, nullable=False)
-    street_address = Column(String(30))
-    city = Column(String(20))
-    state = Column(String(16))
-    zip_code = Column(String(9))
-    field_num = Column(Integer)
-    team_id = Column(Integer, ForeignKey('teams.team_id'))
-    opponent_id = Column(Integer, ForeignKey('teams.team_id'))
-    home = Column(Boolean)
-    start_time = Column(TIME)
-    end_time = Column(TIME)
-    game_status = Column(String(20))
-    weather = Column(String(20))
-    field_conditions = Column(String(50))
-    created_at = Column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
-    updated_at = Column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
+    game_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    scheduled_date: Mapped[str] = mapped_column(Date, nullable=False)
+    street_address: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+    city: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    state: Mapped[Optional[str]] = mapped_column(String(16), nullable=True)
+    zip_code: Mapped[Optional[str]] = mapped_column(String(9), nullable=True)
+    field_num: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    team_id: Mapped[int] = mapped_column(ForeignKey('teams.team_id'))
+    opponent_id: Mapped[int] = mapped_column(ForeignKey('teams.team_id'))
+    home: Mapped[Optional[bool]] = mapped_column(Boolean, nullable=True)
+    start_time: Mapped[Optional[str]] = mapped_column(TIME, nullable=True)
+    end_time: Mapped[Optional[str]] = mapped_column(TIME, nullable=True)
+    game_status: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    weather: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    field_conditions: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    created_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
+    updated_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
