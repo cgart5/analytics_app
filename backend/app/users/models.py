@@ -23,7 +23,6 @@ class Users(Base):
     updated_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
     last_login: Mapped[Optional[str]] = mapped_column(TIMESTAMP, nullable=True)
 
-    # Relationships
-    coach = relationship('Coaches')
-    fan = relationship('Fans')
-    player = relationship('Players')
+    fan = relationship("Fans", back_populates="user")
+    player = relationship("Players", back_populates="user")
+    coach = relationship("Coaches", back_populates="user")

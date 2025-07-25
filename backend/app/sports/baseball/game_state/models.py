@@ -1,5 +1,5 @@
 from sqlalchemy import JSON, TIMESTAMP, func, ForeignKey, Boolean, Integer
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column, relationship
 from typing import Optional
 
 Base = declarative_base()
@@ -37,3 +37,7 @@ class LineupState(Base):
     defensive_lineup: Mapped[dict] = mapped_column(JSON)
     offensive_lineup: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
+
+
+    
+

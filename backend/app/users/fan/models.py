@@ -12,13 +12,11 @@ the fan follows and wants to be notified about
 """
 
 class Fans(Base):
-    __tablename__ = 'fan'
+    __tablename__ = 'fans'
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.user_id'), primary_key=True, nullable=False)
     team_id: Mapped[int] = mapped_column(ForeignKey('teams.team_id'), primary_key=True, nullable=False)
     push_notifications: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
 
-    # Relationships
-    fan = relationship('Users')
-    follows = relationship('Teams')
+    user = relationship('Users', back_populates='fan')

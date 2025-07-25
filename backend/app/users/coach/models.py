@@ -17,5 +17,5 @@ class Coaches(Base):
     updated_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
 
     # Relationships
-    coach = relationship('Users')
+    user = relationship("Users", back_populates="coach")
 

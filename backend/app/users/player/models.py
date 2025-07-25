@@ -19,5 +19,4 @@ class Players(Base):
     updated_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
 
     # Relationships
-    player = relationship('Users')
-    rostered = relationship('Roster')
+    user = relationship('Users', back_populates='player')

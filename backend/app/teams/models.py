@@ -22,11 +22,7 @@ class Teams(Base):
     season_end: Mapped[Optional[str]] = mapped_column(TIMESTAMP, nullable=True)
     created_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
     updated_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
-    
-    coach = relationship('Users')
-    coaches = relationship('Coaches')
-    team = relationship('Roster')
-    follows = relationship('Fans')
+
 
 class Roster(Base):
     __tablename__ = 'roster'
@@ -36,5 +32,3 @@ class Roster(Base):
     created_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
     updated_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
 
-    rostered = relationship("Players")
-    team = relationship('Teams')
