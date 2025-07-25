@@ -1,7 +1,7 @@
 from sqlalchemy import Integer, String, TIMESTAMP, func
 from sqlalchemy.orm import declarative_base, relationship, Mapped, mapped_column
 from typing import Optional
-from models.user_views import coach, fan, player
+from users import coach, fan, player
 
 Base = declarative_base()
 
