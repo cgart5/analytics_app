@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException, Depends 
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Annotated
 from sqlalchemy.orm import Session
-from database import SessionLocal, engine
+from .db.database import DbSession
+from .api import register_routes
 
 
 app = FastAPI(
@@ -12,6 +13,9 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+# Bundle all of the routes to the app
+register_routes(app)
 
 origins = [
     'http://localhost:3000'
@@ -25,15 +29,6 @@ app.add_middleware(
     allow_methods=["*"], #any method POST, GET, DELETE, UPDATE
     allow_headers=["*"],
 )
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-db_dependency = Annotated[Session, Depends(get_db)]
 
 
 if __name__ == "__main__":
